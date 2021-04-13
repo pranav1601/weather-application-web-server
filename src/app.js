@@ -1,13 +1,20 @@
 const path=require('path')
 const express=require('express')
-
-console.log(__dirname)
+const hbs=require('hbs')
 
 const app= express()
-const publicDirectoryPath=path.join(__dirname,'../public')
 
+//paths for express config
+const publicDirectoryPath=path.join(__dirname,'../public')
+const viewsPath=path.join(__dirname,'../templates/views')
+const partialsPath=path.join(__dirname,'../templates/partials')
+
+
+//setup handlebars enginene and views location
 app.set('view engine','hbs')
+app.set('views',viewsPath)
 app.use(express.static(publicDirectoryPath))
+hbs.registerPartials(partialsPath)
 
 app.get('',(req,res)=>{
     res.render('index',{
@@ -18,14 +25,16 @@ app.get('',(req,res)=>{
 
 app.get('/about',(req,res)=>{
     res.render('about',{
-        title:'ABOUT',
+        title:'ABOUT ME!',
         name:'Pranav Agarwal'
     })
 })
 
 app.get('/help',(req,res)=>{
     res.render('help',{
-        message:'This is the help page!'
+        title:'HELP',
+        message:'This is the help page!',
+        name: 'Pranav Agarwal'
     })
 })
 
@@ -33,6 +42,22 @@ app.get('/weather',(req,res)=>{
     res.send({
         forecast:'cloudy',
         location:'Bangalore'
+    })
+})
+
+app.get('/help/*',(req,res)=>{
+    res.render('404',{
+        title:'404!',
+        errorMessage:'This help article could not be found :(',
+        name: 'Pranav Agarwal'
+    })
+})
+
+app.get('*',(req,res)=>{
+    res.render('404',{
+        title:'404!',
+        errorMessage:'This web page could not be found :(',
+        name: 'Pranav Agarwal'
     })
 })
 
