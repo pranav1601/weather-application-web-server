@@ -5,9 +5,9 @@ forecast=(lat, lon, callback)=>{
 
     request({url,json:true},(error,response)=>{
         if(error){
-            callback('Unable to connect to service',undefined)
+            callback('Unable to connect to service', undefined)
         }else if(response.body.error){
-            callback('Unable to find location',undefined)
+            callback('Unable to find location', undefined)
         }else{
             const {body}=response
             const {weather_descriptions,temperature,feelslike,humidity}=body.current
